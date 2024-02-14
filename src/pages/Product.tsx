@@ -29,19 +29,9 @@ import Loader from "../common/Loader";
 import { useGetAllCategory } from "../customHooksRQ/Category";
 import JewelleryItem from "../drawer/JewelleryItem";
 
-const newProduct: IProduct = {
-  title: "",
-  images: [],
-  price: 0,
-  description: "",
-  netWeight: 0,
-  posterURL: "",
-  JewelleryCollection: [],
-};
-
 const Product = () => {
   const deleteProductMutation = useDeleteProductMutation();
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [productdialogOpen, setProductDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   const [deleteDialogConfirmationOpen, setDeleteDialogConfirmationOpen] =
     useState(false);
@@ -63,23 +53,21 @@ const Product = () => {
   } = useGetAllCategory();
 
   const collections = CollectionData || [];
+  const newProduct: IProduct = {
+    _id: "",
+    title: "",
+    images: [],
+    price: 0,
+    description: "",
+    netWeight: 0,
+    posterURL: "",
+    JewelleryCollection: [],
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoadingProducts(true);
-        const updatedProduct: IProduct = {
-          _id: "", // Set the appropriate _id for the selected product
-          title: "",
-          images: [],
-          price: 0,
-          description: "",
-          netWeight: 0,
-          posterURL: "",
-          JewelleryCollection: [], // Set the selected collection
-        };
-        console.log(selectedCollection);
-
         if (selectedCollection) {
           const result = await FetchJewelleryItemByJewelleryCollection(
             selectedCollection
@@ -97,7 +85,6 @@ const Product = () => {
       fetchData();
     }
   }, [selectedCollection]);
-  console.log(filteredProducts);
 
   const handleCollectionChange = (
     event: SelectChangeEvent<string>,
@@ -111,13 +98,7 @@ const Product = () => {
 
   const handleProductEditClick = (product: IProduct) => {
     setSelectedProduct(product);
-    setIsDrawerOpen(true);
-  };
-
-  const handleProductAddClick = () => {
-    setSelectedProduct(newProduct);
-    setIsDrawerOpen(true);
-    refetch();
+    setProductDialogOpen(true);
   };
 
   const handleProductDeleteClick = (product: IProduct) => {
@@ -141,9 +122,21 @@ const Product = () => {
     }
   };
 
+  const handleProductEdit = (updatedProduct: IProduct) => {
+    // Update the product in the table
+    const updatedProducts = filteredProducts.map((product) =>
+      product._id === updatedProduct._id ? updatedProduct : product
+    );
+    setFilteredProducts(updatedProducts);
+    // Close the dialog
+    setProductDialogOpen(false);
+    // Show success message
+    // updat(true, "Product updated successfully.", "success");
+  };
+
   const handleAddProductClick = () => {
     setSelectedProduct(newProduct);
-    setIsDrawerOpen(true);
+    setProductDialogOpen(true);
     refetch();
   };
 
@@ -259,7 +252,6 @@ const Product = () => {
                     <TableCell align="center" sx={{ width: 450 }}>
                       Description
                     </TableCell>
-                    <TableCell align="center">Net Weight</TableCell>
                     <TableCell align="center">Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -273,24 +265,13 @@ const Product = () => {
                         </TableCell>
 
                         <TableCell align="center">
-                          {product.images &&
-                            product.images.map((image, i) => (
-                              <img
-                                key={i}
-                                src={image}
-                                alt={`Product ${index + 1} Image ${i + 1}`}
-                                style={{ marginRight: "5px" }}
-                              />
-                            ))}
+                          <img src={product.posterURL} height={70} width={70} />
                         </TableCell>
                         <TableCell align="center">
                           {product.price || null}
                         </TableCell>
                         <TableCell align="center">
                           {product.description || null}
-                        </TableCell>
-                        <TableCell align="center">
-                          {product.netWeight || null}
                         </TableCell>
                         <TableCell align="center">
                           <IconButton
@@ -317,11 +298,11 @@ const Product = () => {
               handleDeleteClickConfirm={handleDeleteConfirmClick}
             />
           )}
-          {isDrawerOpen && (
+          {productdialogOpen && selectedProduct && (
             <JewelleryItem
-              isDrawerOpen={isDrawerOpen}
-              handleDrawerClose={() => setIsDrawerOpen(false)}
-              selectedJewelleryITem={selectedProduct}
+              selectedProduct={selectedProduct}
+              dialogOpen={productdialogOpen}
+              onCloseDialog={() => setProductDialogOpen(false)}
             />
           )}
         </>
