@@ -530,18 +530,17 @@ function ProductDialog(props: IProps) {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-
                       marginTop: "15px",
                     }}
                   >
-                    <Typography variant="h6">Images</Typography>
+                    <Typography variant="h6">PosterURL</Typography>
 
                     <Button
                       variant="outlined"
                       onClick={handlePosterButtonClick}
                     >
                       <AddIcon />
-                      Upload Image
+                      Upload Poster Image
                     </Button>
 
                     <input
@@ -582,14 +581,14 @@ function ProductDialog(props: IProps) {
                       marginTop: 3,
                     }}
                   >
-                    <Typography variant="h6">PosterURL</Typography>
+                    <Typography variant="h6">Images</Typography>
 
                     <Button
                       variant="outlined"
                       onClick={handleImagesButtonClick}
                     >
                       <AddIcon />
-                      Upload posterURL
+                      Upload Images
                     </Button>
 
                     <input
