@@ -122,7 +122,7 @@ function ProductDialog(props: IProps) {
 
   useEffect(() => {
     if (selectedProduct && selectedProduct._id) {
-      setIsEdit(true)
+      setIsEdit(true);
       setProduct({ ...selectedProduct });
       // if (selectedProduct.images && Array.isArray(selectedProduct.images)) {
       //   setNewProductUploadImages([...selectedProduct.images]);
@@ -324,6 +324,7 @@ function ProductDialog(props: IProps) {
     formData.append("description", product.description);
 
     formData.append("price", String(product.price));
+    formData.append("inStock", product.inStock);
 
     product.JewelleryCollection.forEach((itemId) => {
       formData.append("JewelleryCollection[]", itemId as string);
@@ -506,6 +507,22 @@ function ProductDialog(props: IProps) {
                 }
               />
 
+              <Typography variant="h6" sx={{ marginTop: 1 }}>
+                InStock
+              </Typography>
+
+              <TextField
+                size="small"
+                fullWidth
+                value={product.inStock}
+                onChange={(e) =>
+                  setProduct((prevState) => ({
+                    ...prevState,
+                    inStock: e.target.value,
+                  }))
+                }
+              />
+
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Box
@@ -513,18 +530,17 @@ function ProductDialog(props: IProps) {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-
                       marginTop: "15px",
                     }}
                   >
-                    <Typography variant="h6">Images</Typography>
+                    <Typography variant="h6">PosterURL</Typography>
 
                     <Button
                       variant="outlined"
                       onClick={handlePosterButtonClick}
                     >
                       <AddIcon />
-                      Upload Image
+                      Upload Poster Image
                     </Button>
 
                     <input
@@ -565,14 +581,14 @@ function ProductDialog(props: IProps) {
                       marginTop: 3,
                     }}
                   >
-                    <Typography variant="h6">PosterURL</Typography>
+                    <Typography variant="h6">Images</Typography>
 
                     <Button
                       variant="outlined"
                       onClick={handleImagesButtonClick}
                     >
                       <AddIcon />
-                      Upload posterURL
+                      Upload Images
                     </Button>
 
                     <input

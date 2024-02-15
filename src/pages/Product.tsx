@@ -58,6 +58,7 @@ const Product = () => {
     title: "",
     images: [],
     price: 0,
+    inStock: "",
     description: "",
     netWeight: 0,
     posterURL: "",
@@ -249,6 +250,7 @@ const Product = () => {
                     <TableCell align="center">Title</TableCell>
                     <TableCell align="center">Images</TableCell>
                     <TableCell align="center">Price</TableCell>
+                    <TableCell align="center">InStock</TableCell>
                     <TableCell align="center" sx={{ width: 450 }}>
                       Description
                     </TableCell>
@@ -269,6 +271,9 @@ const Product = () => {
                         </TableCell>
                         <TableCell align="center">
                           {product.price || null}
+                        </TableCell>
+                        <TableCell align="center" sx={{ width: "20px" }}>
+                          {product.inStock || null}
                         </TableCell>
                         <TableCell align="center">
                           {product.description || null}
