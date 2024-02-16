@@ -41,12 +41,12 @@ function CategoryDrawer(props: CategoryDrawerProps) {
   var categoryUpdateMutation = useUpdateCategoryMutation();
 
   const [category, setCategory] = useState<ICategory>(newCategory);
-  const [selectedCategoryImage, setSelectedCategoryImage] = useState<
-    string | null
-  >(null);
-  const [newCategoryImageFile, setNewCategoryImageFile] = useState<File | null>(
-    null
-  );
+  // const [selectedCategoryImage, setSelectedCategoryImage] = useState<
+  //   string | null
+  // >(null);
+  // const [newCategoryImageFile, setNewCategoryImageFile] = useState<File | null>(
+  //   null
+  // );
 
   const {
     register,
@@ -62,91 +62,91 @@ function CategoryDrawer(props: CategoryDrawerProps) {
     },
   });
 
-  const filePosterRef = useRef<HTMLInputElement>(null);
+  // const filePosterRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (selectedCategory && selectedCategory._id) {
       setCategory({ ...selectedCategory });
-      setSelectedCategoryImage(selectedCategory.image ?? null);
+      // setSelectedCategoryImage(selectedCategory.image ?? null);
     }
   }, [selectedCategory]);
 
-  const handleUploadButtonClick = () => {
-    if (filePosterRef.current) {
-      filePosterRef.current?.click();
-    }
-  };
+  // const handleUploadButtonClick = () => {
+  //   if (filePosterRef.current) {
+  //     filePosterRef.current?.click();
+  //   }
+  // };
 
-  async function handleCompressFile(event: File): Promise<File | undefined> {
-    const imageFile = event;
-    console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
+  // async function handleCompressFile(event: File): Promise<File | undefined> {
+  //   const imageFile = event;
+  //   console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
 
-    let options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
-      useWebWorker: true,
-    };
+  //   let options = {
+  //     maxSizeMB: 1,
+  //     maxWidthOrHeight: 1920,
+  //     useWebWorker: true,
+  //   };
 
-    // Check if the image size is above 1 MB
-    if (imageFile.size > 1024 * 1024) {
-      // Reduce the maxSizeMB to compress the image to approximately 500 KB
-      options.maxSizeMB = 0.5;
-    }
+  //   // Check if the image size is above 1 MB
+  //   if (imageFile.size > 1024 * 1024) {
+  //     // Reduce the maxSizeMB to compress the image to approximately 500 KB
+  //     options.maxSizeMB = 0.5;
+  //   }
 
-    try {
-      const compressedBlob = await imageCompression(imageFile, options);
-      console.log(
-        `compressedFile size ${compressedBlob.size / 1024 / 1024} MB`
-      ); // smaller than maxSizeMB
+  //   try {
+  //     const compressedBlob = await imageCompression(imageFile, options);
+  //     console.log(
+  //       `compressedFile size ${compressedBlob.size / 1024 / 1024} MB`
+  //     ); // smaller than maxSizeMB
 
-      // Create a new File object from the compressed Blob with missing properties
-      const compressedFile = new File([compressedBlob], imageFile.name, {
-        type: "image/jpeg",
-        lastModified: Date.now(),
-      });
+  //     // Create a new File object from the compressed Blob with missing properties
+  //     const compressedFile = new File([compressedBlob], imageFile.name, {
+  //       type: "image/jpeg",
+  //       lastModified: Date.now(),
+  //     });
 
-      return compressedFile;
-    } catch (error) {
-      console.log(error);
-      return undefined;
-    }
-  }
+  //     return compressedFile;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return undefined;
+  //   }
+  // }
 
-  const handleCategoryImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      try {
-        const compressedFile = await handleCompressFile(file);
-        if (compressedFile) {
-          setSelectedCategoryImage(URL.createObjectURL(compressedFile));
-          setNewCategoryImageFile(compressedFile);
-        } else {
-          console.log("Compression failed or was not needed.");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      console.log("No file selected.");
-    }
-  };
+  // const handleCategoryImageUpload = async (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     try {
+  //       const compressedFile = await handleCompressFile(file);
+  //       if (compressedFile) {
+  //         setSelectedCategoryImage(URL.createObjectURL(compressedFile));
+  //         setNewCategoryImageFile(compressedFile);
+  //       } else {
+  //         console.log("Compression failed or was not needed.");
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   } else {
+  //     console.log("No file selected.");
+  //   }
+  // };
 
   const handleSaveCategory = async (data: ICategory) => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
 
-    if (
-      newCategoryImageFile &&
-      newCategoryImageFile.size > 0 &&
-      newCategoryImageFile.name !== ""
-    ) {
-      // Append the image file
-      formData.append("image", newCategoryImageFile);
-      formData.append("categoryRemoveImage", category.image!);
-    }
+    // if (
+    //   newCategoryImageFile &&
+    //   newCategoryImageFile.size > 0 &&
+    //   newCategoryImageFile.name !== ""
+    // ) {
+    //   // Append the image file
+    //   formData.append("image", newCategoryImageFile);
+    //   formData.append("categoryRemoveImage", category.image!);
+    // }
 
     if (!selectedCategory?._id) {
       categoryCreateMutation.mutate (formData, {
@@ -175,8 +175,8 @@ function CategoryDrawer(props: CategoryDrawerProps) {
 
   const resetForm = () => {
     setCategory({ ...newCategory });
-    setSelectedCategoryImage(null);
-    setNewCategoryImageFile(null);
+    // setSelectedCategoryImage(null);
+    // setNewCategoryImageFile(null);
     reset({ ...newCategory });
   };
 
@@ -244,7 +244,7 @@ function CategoryDrawer(props: CategoryDrawerProps) {
               helperText={errors.description?.message?.toString()}
               inputProps={{
                 style: {
-                  minHeight: "10px", // Adjust the minimum height of the textarea
+                  minHeight: "10px", 
                 },
               }}
               FormHelperTextProps={{
@@ -252,7 +252,7 @@ function CategoryDrawer(props: CategoryDrawerProps) {
               }}
             />
           </Box>
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               alignItems: "center",
@@ -273,8 +273,8 @@ function CategoryDrawer(props: CategoryDrawerProps) {
               <AddIcon />
               Upload Image
             </Button>
-          </Box>
-          <Box
+          </Box> */}
+          {/* <Box
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -311,7 +311,7 @@ function CategoryDrawer(props: CategoryDrawerProps) {
                 alt="Uploaded Image"
               />
             ) : null}
-          </Box>
+          </Box> */}
         </Grid>
       </Grid>
     </Box>

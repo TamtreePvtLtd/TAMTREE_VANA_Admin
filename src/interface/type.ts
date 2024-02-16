@@ -6,7 +6,7 @@ export interface ICategory {
   _id?: string;
   name: string;
   description: string;
-  image: string;
+  // image: string;
 }
 
 export interface IUser {
