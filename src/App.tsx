@@ -9,6 +9,7 @@ import { theme } from "./theme.ts/Theme";
 import { paths } from "./routes/path";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import OrdersDetails from "./pages/OrderDetails";
 
 export const queryClient = new QueryClient();
 
@@ -26,6 +27,10 @@ function App() {
               <Route index path={paths.PRODUCT} element={<Product />} />
               <Route path={paths.ORDER} element={<Order />} />
               <Route path={paths.CATEGORY} element={<Category />} />
+              <Route
+                path={`${paths.ORDERSDETAILS}/:id`}
+                element={<OrdersDetails />}
+              />
             </Route>
           </Routes>
         </Router>

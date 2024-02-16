@@ -3,7 +3,7 @@
   "private": false,
   "version": "0.0.0",
   "type": "module",
-   "homepage": "https://kumuthac23.github.io/Vana_Admin_Portal/",
+  "homepage": "https://kumuthac23.github.io/Vana_Admin_Portal/",
   "scripts": {
     "dev": "env-cmd -f ./environments/.env vite",
     "build": "tsc && vite build",
@@ -18,9 +18,12 @@
     "@hookform/resolvers": "^3.3.4",
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
+    "@mui/x-date-pickers": "^6.19.4",
     "@tanstack/react-query": "^5.13.4",
     "axios": "^1.6.5",
     "browser-image-compression": "^2.0.2",
+    "date-fns": "^2.30.0",
+    "dayjs": "^1.11.10",
     "env-cmd": "^10.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -29,6 +32,7 @@
     "react-router": "^6.21.3",
     "react-router-dom": "^6.21.3",
     "react-slick": "^0.30.1",
+    "update": "^0.7.4",
     "yup": "^1.3.3"
   },
   "devDependencies": {
