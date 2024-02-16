@@ -6,7 +6,6 @@ import Product from "./pages/Product";
 import Order from "./pages/Order";
 import Category from "./pages/Category";
 import { theme } from "./theme.ts/Theme";
-import Login from "./login/Login";
 import { paths } from "./routes/path";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
@@ -23,8 +22,8 @@ function App() {
           <Layout />
           <Routes>
             <Route path={paths.ROOT} element={<Layout />}>
-              <Route index path={paths.LOGIN} element={<Login />} />
-              <Route path={paths.PRODUCT} element={<Product />} />
+              {/* <Route index path={paths.LOGIN} element={<Login />} /> */}
+              <Route index path={paths.PRODUCT} element={<Product />} />
               <Route path={paths.ORDER} element={<Order />} />
               <Route path={paths.CATEGORY} element={<Category />} />
             </Route>

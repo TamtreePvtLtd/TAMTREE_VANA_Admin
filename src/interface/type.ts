@@ -51,7 +51,7 @@ export type ProductByCollection = {
   netWeight: number;
   posterURL: string;
   categoryName: string;
-  JewelleryCollectionId: string[];
+  // JewelleryCollectionId: string[];
   images: string[];
   JewelleryCollection: ICategory[];
 };

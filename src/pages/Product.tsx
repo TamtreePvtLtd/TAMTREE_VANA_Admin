@@ -28,11 +28,14 @@ import DeleteConfirmationDialogBox from "../common/DeleteConfirmationDialogBox";
 import Loader from "../common/Loader";
 import { useGetAllCategory } from "../customHooksRQ/Category";
 import JewelleryItem from "../drawer/JewelleryItem";
+import { ProductInitialValue } from "../constants/IntialValues";
 
 const Product = () => {
   const deleteProductMutation = useDeleteProductMutation();
   const [productdialogOpen, setProductDialogOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(
+    ProductInitialValue
+  );
   const [deleteDialogConfirmationOpen, setDeleteDialogConfirmationOpen] =
     useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState<IProduct | null>(
@@ -73,6 +76,7 @@ const Product = () => {
           const result = await FetchJewelleryItemByJewelleryCollection(
             selectedCollection
           );
+
           setFilteredProducts(result);
         }
       } catch (error) {
@@ -98,7 +102,7 @@ const Product = () => {
   };
 
   const handleProductEditClick = (product: IProduct) => {
-    setSelectedProduct(product);
+    setSelectedProduct({ ...product });
     setProductDialogOpen(true);
   };
 
@@ -278,6 +282,7 @@ const Product = () => {
                         <TableCell align="center">
                           {product.description || null}
                         </TableCell>
+
                         <TableCell align="center">
                           <IconButton
                             onClick={() => handleProductEditClick(product)}
