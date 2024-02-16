@@ -2,7 +2,9 @@ import {
   Box,
   Button,
   Container,
+  Grid,
   IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -27,7 +29,7 @@ export const newCategory: ICategory = {
   _id: "",
   name: "",
   description: "",
-  image: "",
+  // image: "",
 };
 
 const Category = () => {
@@ -89,20 +91,28 @@ const Category = () => {
       ) : (
         <>
           <Container>
-            <Box display="flex" justifyContent="space-between">
-              <Box display={"flex"} alignItems={"center"} columnGap={1}>
-                <Typography variant="h6">Collections</Typography>
-                <Typography>({Categorys.length})</Typography>
-              </Box>
-              <Button
-                variant="contained"
-                sx={{ textTransform: "none", color: "white" }}
-                onClick={handleCategoryAddClick}
+            <Grid container spacing={2} p={3}>
+              <Grid item xs={12}>
+                <Box display="flex" justifyContent="space-between">
+                  <Box display={"flex"} alignItems={"center"} columnGap={1}>
+                    <Typography variant="h6">Collections</Typography>
+                    <Typography>({Categorys.length})</Typography>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    sx={{ textTransform: "none", color: "white" }}
+                    onClick={handleCategoryAddClick}
+                  >
+                    + Add Collection
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sx={{ display: "flex", justifyContent: "center" }}
               >
-                + Add Collection
-              </Button>
-            </Box>
-            <TableContainer
+                {/* <TableContainer
               sx={{
                 maxHeight: 600,
                 height: "100%",
@@ -119,53 +129,75 @@ const Category = () => {
                   zIndex: 1,
                   tableLayout: "fixed",
                 }}
-              >
-                <TableHead
+              > */}
+                <TableContainer
+                  elevation={0}
                   sx={{
-                    backgroundColor: "wheat",
-                    height: selectedCategory ? "50px" : "auto",
+                    boxShadow: 3,
+                    width: "55%",
+                    maxWidth: "800px",
                   }}
+                  component={Paper}
                 >
-                  <TableRow>
-                    <TableCell align="center">Image</TableCell>
-                    <TableCell align="center">Name</TableCell>
-                    <TableCell align="center" sx={{ width: 600 }}>
-                      Description
-                    </TableCell>
-                    <TableCell align="center">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {Categorys.map((category, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="center">
+                  <Table stickyHeader aria-label="menus-table">
+                    <TableHead
+                      sx={{
+                        backgroundColor: "wheat",
+                        // height: selectedCategory ? "50px" : "auto",
+                      }}
+                    >
+                      <TableRow>
+                        {/* <TableCell align="center">Image</TableCell> */}
+                        <TableCell align="center" width={"30%"}>
+                          Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          width={"30%"}
+                          sx={{ width: 600 }}
+                        >
+                          Description
+                        </TableCell>
+                        <TableCell align="center" width={"20%"}>
+                          Actions
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {Categorys.map((category, index) => (
+                        <TableRow key={index}>
+                          {/* <TableCell align="center">
                         <img
                           width="50px"
                           src={`http://localhost:3000/category/images/${category.image}`}
                           alt={`${category.name}`}
                         />
-                      </TableCell>
-                      <TableCell align="center">{category.name}</TableCell>
-                      <TableCell align="center">
-                        {category.description}
-                      </TableCell>
-                      <TableCell align="center">
-                        <IconButton
-                          onClick={() => handleCategoryEditClick(category)}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => handleCategoryDeleteClick(category)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                      </TableCell> */}
+                          <TableCell align="center">{category.name}</TableCell>
+                          <TableCell align="center">
+                            {category.description}
+                          </TableCell>
+                          <TableCell align="center">
+                            <IconButton
+                              onClick={() => handleCategoryEditClick(category)}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton
+                              onClick={() =>
+                                handleCategoryDeleteClick(category)
+                              }
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+            </Grid>
           </Container>
           {deleteDialogConfirmationOpen && (
             <DeleteConfirmationDialogBox
