@@ -28,23 +28,6 @@ export const createCategory = async (newCategory: FormData) => {
 
 export const updateCategory = async (updatedCategory: FormData) => {
     console.log("api update", updatedCategory);
-
-    // const updateApi = `JewelleryCollection/updateJewelleryCollection/${updatedCategory._id}`;
-    // try {
-    //     const response = await http.put(updateApi, updatedCategory);
-    //     console.log(response);
-
-    //     if (response.data && response.data._id) {
-
-    //         return response.data;
-    //     } else {
-    //         throw new Error("Error while update category");
-    //     }
-    // } catch (error) {
-    //     console.error("Error in update  Category:", error);
-    //     throw error;
-    // }
-
     try {
       var id = updatedCategory.get("id");
       var response = await http.put<ICategory>(
