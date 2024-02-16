@@ -55,3 +55,50 @@ export type ProductByCollection = {
   images: string[];
   JewelleryCollection: ICategory[];
 };
+///order////
+
+export interface Id {
+  _id?: string;
+}
+
+export interface IOrder extends Id {
+  orderDateAndTime: Date;
+  orderNumber: string;
+}
+
+export interface IOrderDetailByOrderID {
+  _id: string;
+  shippingDetail: IShippingdetail;
+  userId: string;
+  productdetail: IProductdetail[];
+  totalPrice: number;
+  paymentId: string;
+  status: number;
+  orderedDateAndTime: Date;
+  userName: string;
+  image: string;
+  orderNumber: string;
+  courierType: string;
+  deliveryFee: string;
+}
+
+export interface IShippingdetail {
+  name: string;
+  address: string;
+  phoneNumber: string;
+  alternativeNumber: string;
+  pincode: string;
+  city: string;
+  state: string;
+  orderNumber: string;
+}
+
+export interface IProductdetail {
+  productId: string;
+  title: string;
+  productCode: string;
+  posterURL: string;
+  _id: string;
+}
+
+

@@ -1,7 +1,8 @@
 export enum paths {
-    ROOT = "/",
-    ORDER = "/order",
-    PRODUCT = "/product",
-    CATEGORY = "/category",
-    LOGIN = "/login"
+  ROOT = "/",
+  ORDER = "/order",
+  PRODUCT = "/product",
+  CATEGORY = "/category",
+  LOGIN = "/login",
+  ORDERSDETAILS = "/OrderDetails",
 }
