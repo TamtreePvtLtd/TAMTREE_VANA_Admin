@@ -33,7 +33,6 @@ function CategoryDrawer(props: CategoryDrawerProps) {
     isDrawerOpen: categoryDrawerOpen,
     handleDrawerClose,
     selectedCategory,
-
   } = props;
   const formRef = useRef(null);
 
@@ -137,20 +136,10 @@ function CategoryDrawer(props: CategoryDrawerProps) {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
-
-    // if (
-    //   newCategoryImageFile &&
-    //   newCategoryImageFile.size > 0 &&
-    //   newCategoryImageFile.name !== ""
-    // ) {
-    //   // Append the image file
-    //   formData.append("image", newCategoryImageFile);
-    //   formData.append("categoryRemoveImage", category.image!);
-    // }
-
     if (!selectedCategory?._id) {
-      categoryCreateMutation.mutate (formData, {
+      categoryCreateMutation.mutate(formData, {
         onSuccess: () => {
+          toast.success("Collection  created successfully");
           handleDrawerClose();
           resetForm();
         },
@@ -159,9 +148,10 @@ function CategoryDrawer(props: CategoryDrawerProps) {
         },
       });
     } else {
-      formData.append("_id", selectedCategory?._id); 
+      formData.append("id", selectedCategory?._id);
       categoryUpdateMutation.mutate(formData, {
         onSuccess: () => {
+          toast.success("Collection  updated successfully");
           handleDrawerClose();
           resetForm();
         },
@@ -171,7 +161,6 @@ function CategoryDrawer(props: CategoryDrawerProps) {
       });
     }
   };
-
 
   const resetForm = () => {
     setCategory({ ...newCategory });
@@ -244,7 +233,7 @@ function CategoryDrawer(props: CategoryDrawerProps) {
               helperText={errors.description?.message?.toString()}
               inputProps={{
                 style: {
-                  minHeight: "10px", 
+                  minHeight: "10px",
                 },
               }}
               FormHelperTextProps={{
