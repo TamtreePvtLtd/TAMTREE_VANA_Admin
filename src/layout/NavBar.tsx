@@ -20,7 +20,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import StoreIcon from "@mui/icons-material/Store";
 import { useNavigate } from "react-router";
 import { paths } from "../routes/path";
-import vanaLogo from "../assets/JEWELLERY BY VAVA LOGO.png";
+import vanaLogo from "../assets/vanalogo.png";
 const menuItems = [
   { text: "Orders", icon: <AddShoppingCartIcon />, path: `${paths.ORDER}` },
   { text: "Products", icon: <StoreIcon />, path: `${paths.PRODUCT}` },

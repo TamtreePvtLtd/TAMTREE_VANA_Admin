@@ -1,9 +1,9 @@
 import { ICategory } from "../interface/type";
-import { http } from "./http";
+import  {httpWithoutCredentials}  from "./http";
 
 export const getAllCategory = async () => {
     try {
-        const response = await http.get<ICategory[]>("JewelleryCollection/getJewelleryCollection");
+        const response = await httpWithoutCredentials.get<ICategory[]>("JewelleryCollection/getJewelleryCollection");
         return response.data;
     } catch (error) { throw error }
 };
@@ -12,7 +12,7 @@ export const createCategory = async (newCategory: FormData) => {
     console.log("create", newCategory);
 
     try {
-        const response = await http.post<ICategory>(
+        const response = await httpWithoutCredentials.post<ICategory>(
           "JewelleryCollection/createJewelleryCollection",
           newCategory
         );
@@ -30,7 +30,7 @@ export const updateCategory = async (updatedCategory: FormData) => {
     console.log("api update", updatedCategory);
     try {
       var id = updatedCategory.get("id");
-      var response = await http.put<ICategory>(
+      var response = await httpWithoutCredentials.put<ICategory>(
         `JewelleryCollection/updateJewelleryCollection/${id}`,
         updatedCategory
       );
@@ -43,7 +43,7 @@ export const updateCategory = async (updatedCategory: FormData) => {
 export const deleteCategory = async (id: string) => {
     const deleteApi = `JewelleryCollection/deleteJewelleryCollection/${id}`;
     try {
-        await http.delete(deleteApi);
+        await httpWithoutCredentials.delete(deleteApi);
         console.log("Category deleted successfully");
     } catch (error) {
         console.error("Error in delete Category:", error);
