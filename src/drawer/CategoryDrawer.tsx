@@ -137,10 +137,10 @@ function CategoryDrawer(props: CategoryDrawerProps) {
     formData.append("name", data.name);
     formData.append("description", data.description);
     if (!selectedCategory?._id) {
+      handleDrawerClose();
       categoryCreateMutation.mutate(formData, {
         onSuccess: () => {
           toast.success("Collection  created successfully");
-          handleDrawerClose();
           resetForm();
         },
         onError: (error: any) => {
@@ -151,8 +151,9 @@ function CategoryDrawer(props: CategoryDrawerProps) {
       formData.append("id", selectedCategory?._id);
       categoryUpdateMutation.mutate(formData, {
         onSuccess: () => {
-          toast.success("Collection  updated successfully");
           handleDrawerClose();
+          toast.success("Collection  updated successfully");
+
           resetForm();
         },
         onError: (error: any) => {

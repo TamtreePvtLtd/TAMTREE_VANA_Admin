@@ -1,4 +1,4 @@
-import { IProduct, ProductByCollection } from "../interface/type";
+import { IProduct } from "../interface/type";
 import { http } from "./http";
 
 export const getAllProduct = async () => {
@@ -73,12 +73,9 @@ export const FetchJewelleryItemByJewelleryCollection = async (
   updatedProduct: string
 ) => {
   try {
-    console.log(updatedProduct);
-
     const response = await http.get<IProduct[]>(
-      `JewelleryItem/fetchJewelleryItemsByJewelleryCollectionId/${updatedProduct}`
+      `JewelleryItem/fetchJewelleryItemByJewelleryCollectionId/${updatedProduct}`
     );
-    console.log(response.data);
 
     return response.data;
   } catch (error) {

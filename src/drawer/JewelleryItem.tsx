@@ -16,6 +16,8 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  MenuItem,
+  Select,
   Slide,
   TextField,
   Typography,
@@ -38,6 +40,7 @@ import { ICategory, IProduct } from "../interface/type";
 import { useSnackBar } from "../context/SnackBarContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getAllCategory } from "../services/CategoryApi";
+import ProductImage from "../common/ProductImage";
 
 interface IProps {
   selectedProduct: IProduct;
@@ -72,6 +75,8 @@ function ProductDialog(props: IProps) {
     onCloseDialog,
     selectedProduct,
   } = props;
+
+
 
   const formRef = useRef(null);
   const [collections, setCollections] = useState<ICategory[]>([]);
@@ -123,10 +128,17 @@ function ProductDialog(props: IProps) {
   useEffect(() => {
     if (selectedProduct && selectedProduct._id) {
       setIsEdit(true);
+
       setProduct({ ...selectedProduct });
+
       // if (selectedProduct.images && Array.isArray(selectedProduct.images)) {
-      //   setNewProductUploadImages([...selectedProduct.images]);
+      //   getImageFiles(selectedProduct.images)
+      //     .then((files) => setNewProductUploadImages(files))
+      //     .catch((error) => console.error("Error converting image URLs:", error));
       // }
+      console.log("images", selectedProduct.images);
+
+      setProductuploadedImages(selectedProduct.images);
       if (selectedProduct.posterURL) {
         if (typeof selectedProduct.posterURL === "string") {
           setSelectedPosterImage(selectedProduct.posterURL);
@@ -136,27 +148,6 @@ function ProductDialog(props: IProps) {
       }
     }
   }, [selectedProduct]);
-
-  // useEffect(() => {
-  //   if (selectedProduct && selectedProduct._id) {
-  //     setIsEdit(true);
-  //     setProduct({ ...selectedProduct });
-
-  //     reset({
-  //       title: selectedProduct.title,
-  //       price: selectedProduct.price,
-  //       description: selectedProduct.description,
-  //       netWeight: selectedProduct.netWeight,
-
-  //       images: selectedProduct.images || [],
-  //       posterURL: selectedProduct.posterURL || "",
-  //       JewelleryCollection: selectedProduct.JewelleryCollection || [],
-  //     });
-  //     console.log("Selected categories:", selectedProduct.JewelleryCollection);
-
-  //     setSelectedCategory(selectedProduct.JewelleryCollection || []);
-  //   }
-  // }, [selectedProduct, reset]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -319,16 +310,17 @@ function ProductDialog(props: IProps) {
     e.preventDefault();
     const formData = new FormData(formRef.current!);
 
-    console.log("JewelleryCollection:", product.JewelleryCollection);
     formData.append("title", product.title);
     formData.append("description", product.description);
 
     formData.append("price", String(product.price));
     formData.append("inStock", product.inStock);
 
-    product.JewelleryCollection.forEach((itemId) => {
-      formData.append("JewelleryCollection[]", itemId as string);
-    });
+    if (product.JewelleryCollection) {
+      product.JewelleryCollection.forEach((itemId) => {
+        formData.append("JewelleryCollection[]", itemId as string);
+      });
+    }
 
     var removedImages: string[] = removedProductImages;
 
@@ -479,9 +471,15 @@ function ProductDialog(props: IProps) {
                     key={collection._id}
                     control={
                       <Checkbox
-                        checked={selectedCategory.some(
-                          (cat) => cat._id === collection._id
-                        )}
+                        checked={
+                          selectedCategory.some(
+                            (cat) => cat._id === collection._id
+                          ) ||
+                          (product.JewelleryCollection &&
+                            product.JewelleryCollection.includes(
+                              collection._id
+                            ))
+                        }
                         onChange={() => handleCheckboxChange(collection)}
                       />
                     }
@@ -530,17 +528,73 @@ function ProductDialog(props: IProps) {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      marginTop: "15px",
+                      marginBottom: 2,
+                      marginTop: 3,
                     }}
                   >
-                    <Typography variant="h6">PosterURL</Typography>
+                    <Typography variant="body1" fontWeight="bold">
+                      PosterURL
+                    </Typography>
 
                     <Button
                       variant="outlined"
                       onClick={handlePosterButtonClick}
                     >
                       <AddIcon />
-                      Upload Poster Image
+                      Upload Poster
+                    </Button>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 2,
+                    }}
+                  >
+                    {isPosterUploading && (
+                      <Box textAlign={"center"}>
+                        <CircularProgress size={30} />
+                      </Box>
+                    )}
+
+                    <input
+                      type="file"
+                      style={{ display: "none" }}
+                      ref={filePosterRef}
+                      onChange={handlePosterImageUpload}
+                    />
+
+                    {selectedPosterImage != null &&
+                      selectedPosterImage != "" && (
+                        <img
+                          src={selectedPosterImage!}
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                          }}
+                        />
+                      )}
+                  </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 2,
+                      marginTop: 3,
+                    }}
+                  >
+                    <Typography variant="body1" fontWeight="bold">
+                      Images
+                    </Typography>
+                    <Button
+                      variant="outlined"
+                      onClick={handleImagesButtonClick}
+                    >
+                      <AddIcon />
+                      Upload Images
                     </Button>
 
                     <input
@@ -558,73 +612,45 @@ function ProductDialog(props: IProps) {
                       gap: 2,
                     }}
                   >
-                    {selectedPosterImage && (
-                      <Box>
-                        <img
-                          src={selectedPosterImage}
-                          style={{
-                            width: "100px",
-                            height: "100px",
-                          }}
-                        />
-                      </Box>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid item xs={12}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: 2,
-                      marginTop: 3,
-                    }}
-                  >
-                    <Typography variant="h6">Images</Typography>
-
-                    <Button
-                      variant="outlined"
-                      onClick={handleImagesButtonClick}
-                    >
-                      <AddIcon />
-                      Upload Images
-                    </Button>
-
-                    <input
-                      type="file"
-                      style={{ display: "none" }}
-                      ref={filePosterRef}
-                      onChange={handlePosterImageUpload}
-                    />
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: 2,
-                    }}
-                  >
                     {isImagesUploading && (
                       <Box textAlign={"center"}>
                         <CircularProgress size={30} />
                       </Box>
                     )}
-                    {newProductUplodedImages.length > 0 && (
-                      <Box>
-                        {newProductUplodedImages.map((image, index) => (
-                          <img
-                            key={index}
-                            src={URL.createObjectURL(image)}
-                            style={{
-                              width: "100px",
-                              height: "100px",
-                              padding: "5px",
-                            }}
+
+                    {newProductUplodedImages &&
+                      newProductUplodedImages.length > 0 &&
+                      newProductUplodedImages.map((file, index) => (
+                        <Box key={`newContainer${index + 1}`}>
+                          <ProductImage
+                            id={`newProductUplodedImagesContainer${index + 1}`}
+                            file={URL.createObjectURL(file)}
+                            index={index}
+                            hoveredIndex={hoveredIndex}
+                            setHoveredIndex={setHoveredIndex}
+                            handleDeleteImage={(deleteIndex) =>
+                              handleDeleteImage(deleteIndex)
+                            }
                           />
-                        ))}
-                      </Box>
-                    )}
+                        </Box>
+                      ))}
+
+                    {productUploadedImages &&
+                      productUploadedImages.length > 0 &&
+                      productUploadedImages.map((item, index) => (
+                        <Box key={`existsImages${index + 1}`}>
+                          <ProductImage
+                            id={`uploadedImagesContainer${index + 1}`}
+                            file={item}
+                            index={index}
+                            hoveredIndex={uploadedImageHoveredIndex}
+                            setHoveredIndex={setUploadedImageHoverIndex}
+                            handleDeleteImage={(deleteIndex) =>
+                              handleDeleteUploadedImage(deleteIndex)
+                            }
+                          />
+                        </Box>
+                      ))}
                   </Box>
                 </Grid>
               </Grid>
@@ -636,7 +662,11 @@ function ProductDialog(props: IProps) {
             <Button variant="outlined" onClick={handleCloseDialog}>
               Cancel
             </Button>
-            <Button type="submit" variant="contained">
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={handleSaveProduct}
+            >
               Save
             </Button>
           </DialogActions>

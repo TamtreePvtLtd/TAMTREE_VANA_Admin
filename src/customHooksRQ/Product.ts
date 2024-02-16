@@ -37,23 +37,11 @@ export const useCreateProductMutation = () => {
 };
 
 export const useUpdateProductMutation = () => {
-  // const updateProductMutation = useMutation({
-  //     mutationFn: (updatedProduct: IProduct) => {
-  //         console.log(updatedProduct);
-  //         return updateProduct(updatedProduct);
-  //     },
-  //     onSuccess: () => {
-  //         queryClient.invalidateQueries({ queryKey: ["ProductList"] });
-  //         toast.success("Product updated successfully");
-  //     },
-  // });
-
-  // return updateProductMutation;
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["ProductList"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
     onError: (error) => {
       console.log(error);
@@ -65,7 +53,7 @@ export const useDeleteProductMutation = () => {
   const deleteProductMutation = useMutation({
     mutationFn: (id: string) => deleteProduct(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["ProductList"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Product deleted successfully");
     },
   });
