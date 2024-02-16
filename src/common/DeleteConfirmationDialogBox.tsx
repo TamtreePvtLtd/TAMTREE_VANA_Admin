@@ -24,7 +24,7 @@ function DeleteConfirmationDialogBox({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleDeleteClickConfirm}>Agree</Button>
+        <Button onClick={handleDeleteClickConfirm} variant="contained">Agree</Button>
         <Button onClick={handleDeleteCancel} autoFocus>
           Disagree
         </Button>

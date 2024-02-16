@@ -19,10 +19,7 @@ export const useGetAllCategory = () => {
 
 export const useCreateCategoryMutation = () => {
   const createCategoryMutation = useMutation({
-    // mutationFn: (newCategory: ICategory) => createCategory(newCategory),
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries({ queryKey: ["categoryList"] });
-    //   toast.success("Category created successfully");
+  
     mutationFn: createCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categoryList"] });
@@ -35,16 +32,7 @@ export const useCreateCategoryMutation = () => {
 };
 
 export const useUpdateCategoryMutation = () => {
-//   const updateCategoryMutation = useMutation({
-//     mutationFn: (updatedCategory: ICategory) => {
-//       console.log(updatedCategory);
-//       return updateCategory(updatedCategory);
-//     },
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ["categoryList"] });
-//       toast.success("Category updated successfully");
-//     },
-    //   });
+
       const queryClient = useQueryClient();
     return useMutation({
       mutationFn: updateCategory,
