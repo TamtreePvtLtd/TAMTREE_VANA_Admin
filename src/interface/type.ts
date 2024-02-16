@@ -29,6 +29,7 @@ export interface IProduct {
   _id: string;
   title: string;
   images: string[];
+  inStock: string;
   price: number;
   description: string;
   netWeight?: number;
