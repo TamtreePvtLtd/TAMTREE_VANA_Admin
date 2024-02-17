@@ -7,12 +7,17 @@ import { orders } from "../seed/seed";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Loader from "../common/Loader";
+import { useGetAllCategory} from "../customHooksRQ/Category";
+
 
 function Order() {
   const [orderedDate, setOrderedDate] = useState<string | null>(null);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { isLoading, isFetching } = useGetAllCategory();
 
+  
   const handleClearFilter = () => {
     setOrderedDate(null);
     setOrderNumber(null);
@@ -20,6 +25,11 @@ function Order() {
 
   return (
     <>
+      {isLoading || isFetching ? (
+        <Loader />
+      ) : (
+        <>
+      
       <Typography
         sx={{ fontSize: 30 }}
         color="textPrimary"
@@ -60,6 +70,8 @@ function Order() {
           <Typography sx={{ fontSize: 30 }}>No orders found</Typography>
         )}
       </Grid>
+    </>
+      )}
     </>
   );
 }
