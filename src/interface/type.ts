@@ -1,7 +1,4 @@
-export interface ILogin {
-  phoneNumber: string;
-  password: string;
-}
+
 export interface ICategory {
   _id?: string;
   name: string;
@@ -9,10 +6,26 @@ export interface ICategory {
   // image: string;
 }
 
+export interface ILogin {
+  email: string;
+ password: string;
+ }
 export interface IUser {
-  phoneNumber: string;
-  password: string;
+  adminId: string | null;
+  email: string | null;
 }
+
+export interface ILoginResponse {
+  data: IUser | null;
+  message: string;
+  status?: boolean;
+}
+
+export interface IAuthContext {
+  user: IUser | null;
+  updateUserData: (user: IUser | null) => void;
+}
+
 export type CategoryDrawerProps = {
   isDrawerOpen: boolean;
   selectedCategory: ICategory | null;
