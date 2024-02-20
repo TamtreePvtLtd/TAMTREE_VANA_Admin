@@ -279,7 +279,16 @@ const Product = () => {
                         <TableCell align="center" sx={{ width: "20px" }}>
                           {product.inStock || null}
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell
+                          align="center"
+                          sx={{
+                            textAlign: "center",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            maxWidth: "50px",
+                          }}
+                        >
                           {product.description || null}
                         </TableCell>
 
