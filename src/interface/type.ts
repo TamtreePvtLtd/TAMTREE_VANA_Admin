@@ -1,3 +1,5 @@
+import { number } from "yup";
+
 export interface ILogin {
   phoneNumber: string;
   password: string;
@@ -62,8 +64,9 @@ export interface Id {
 }
 
 export interface IOrder extends Id {
-  orderDateAndTime: Date;
-  orderNumber: string;
+  Sno: number;
+  OrderDateAndTime: Date;
+  OrderNumber: string;
 }
 
 export interface IOrderDetailByOrderID {

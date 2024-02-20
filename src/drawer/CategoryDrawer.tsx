@@ -184,7 +184,7 @@ function CategoryDrawer(props: CategoryDrawerProps) {
           p={2}
         >
           <Typography variant="h6" component="div">
-            {selectedCategory?._id ? "Edit Category" : "Add Category"}
+            {selectedCategory?._id ? "Edit Collection" : "Add Collection"}
           </Typography>
           <CloseIcon
             sx={{ cursor: "pointer" }}
