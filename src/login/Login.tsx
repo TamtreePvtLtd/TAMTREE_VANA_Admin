@@ -32,7 +32,8 @@ const schema = yup.object().shape({
 const Login = () => {
   const navigate = useNavigate();
   const { updateUserData } = useAuthContext();
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean | null>(null);
   const {
     handleSubmit,
     register,
@@ -42,7 +43,7 @@ const Login = () => {
     mode:"all"
   });
 
-  const [showPassword, setShowPassword] = useState(false);
+
   
   const handleLogin = async (data: ILogin) => {
      await getLoginCridential(data)
