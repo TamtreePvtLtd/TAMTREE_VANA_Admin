@@ -11,8 +11,11 @@ import {
   Typography,
   Box,
   ListItemIcon,
+  Tooltip,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -21,16 +24,34 @@ import StoreIcon from "@mui/icons-material/Store";
 import { useNavigate } from "react-router";
 import { paths } from "../routes/path";
 import vanaLogo from "../assets/vanalogo.png";
+import { handleLogout} from "../services/LoginApi";
+import Logout from "@mui/icons-material/Logout";
+import { useAuthContext } from "../context/AuthContext";
 const menuItems = [
   { text: "Orders", icon: <AddShoppingCartIcon />, path: `${paths.ORDER}` },
   { text: "Products", icon: <StoreIcon />, path: `${paths.PRODUCT}` },
   { text: "Collections", icon: <CategoryIcon />, path: `${paths.CATEGORY}` },
 ];
 
+
 const NavBar = () => {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { user,updateUserData} = useAuthContext();
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
+  const open = Boolean(anchorEl);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget as HTMLButtonElement);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+
+  
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
@@ -43,6 +64,18 @@ const NavBar = () => {
     navigate(`${path}`);
     setDrawerOpen(false);
   };
+
+  const moveToLogin = () => {
+    navigate(paths.LOGIN);
+  };
+
+  const handleLogoutClick = async () => {
+    await handleLogout(); 
+    handleMenuClose();
+    updateUserData(null)
+    navigate(paths.LOGIN); 
+  };
+
 
   return (
     <>
@@ -67,9 +100,27 @@ const NavBar = () => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             VANA
           </Typography>
-          <IconButton color="inherit">
-            <AccountCircleIcon />
-          </IconButton>
+          
+          {user ? (
+            <Tooltip title="Account settings">
+              <IconButton
+                onClick={handleMenuOpen}
+                size="small"
+                aria-controls={open ? "account-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : "false"}
+              >
+                <Avatar sx={{ width: 28, height: 28 }}>
+                  {user!.email ? user!.email.toUpperCase()[0] : ""}
+                </Avatar>
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <IconButton color="inherit" onClick={moveToLogin}>
+              <AccountCircleIcon />
+            </IconButton>
+          )}
+         
         </Toolbar>
       </AppBar>
 
@@ -123,6 +174,45 @@ const NavBar = () => {
           ))}
         </List>
       </Drawer>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleMenuClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            "& .MuiAvatar-root": {
+              width: 25,
+              height: 25,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem onClick={handleLogoutClick}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
     </>
   );
 };

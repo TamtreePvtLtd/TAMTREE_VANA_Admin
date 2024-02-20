@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
@@ -12,49 +12,62 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { ILogin } from "../interface/type";
+import { ILogin} from "../interface/type";
 import { useNavigate } from "react-router";
-import toast from "react-hot-toast";
-import { useLogin } from "../customHooksRQ/User";
+import { getLoginCridential } from "../services/LoginApi";
+import { useAuthContext } from "../context/AuthContext";
 import { paths } from "../routes/path";
+import toast from "react-hot-toast";
+
 
 const schema = yup.object().shape({
-  phoneNumber: yup
+  email: yup
     .string()
     .required()
-    .typeError("Please enter the PhoneNumber")
-    .matches(/^[0-9]{10}$/, "Please enter a valid phone number"),
+    .typeError("Please enter the Email")
+    .email("Please enter a valid Email"),
   password: yup.string().required("Password is required"),
 });
 
 const Login = () => {
   const navigate = useNavigate();
+  const { updateUserData } = useAuthContext();
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({
+  } = useForm<ILogin>({
     resolver: yupResolver(schema),
+    mode:"all"
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const loginMutation = useLogin();
-  const handleLogin: SubmitHandler<ILogin> = (data: ILogin) => {
-    console.log(data);
-
-    if (data) {
-      loginMutation
-        .mutateAsync(data)
-        .then(() => {
-          navigate(`${paths.PRODUCT}`);
-        })
-        .catch((error) => {
-          console.error(error);
-          toast.error("Invalid username and password");
+  
+  const handleLogin = async (data: ILogin) => {
+     await getLoginCridential(data)
+     .then((response)=>{
+      if (response.data) {
+        updateUserData({
+          ...response.data.data!
         });
-    }
-  };
+        toast.success(response.data.message)
+        navigate(paths.PRODUCT);
+      } else {
+        updateUserData(null);
+      }
+     })  
+     .catch((error) => {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An error occurred while logging in.');
+      }
+      console.error("Error occurred during login:", error);
+    });
+};
+
+    
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -76,17 +89,17 @@ const Login = () => {
         <form onSubmit={handleSubmit(handleLogin)}>
           <Box>
             <Typography variant="body2" sx={{ fontWeight: 600, opacity: 0.7 }}>
-              PhoneNumber<span style={{ color: "red" }}>*</span>
+              Email<span style={{ color: "red" }}>*</span>
             </Typography>
             <TextField
               variant="outlined"
               margin="dense"
               size="small"
               fullWidth
-              type="tel"
-              {...register("phoneNumber")}
-              error={!!errors.phoneNumber}
-              helperText={errors.phoneNumber?.message?.toString()}
+              type="email"
+              {...register("email")}
+              error={!!errors.email}
+              helperText={errors.email?.message?.toString()}
               autoComplete="new"
               required
             />
