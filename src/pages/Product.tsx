@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -14,10 +14,7 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
-  SelectChangeEvent,
-  InputAdornment,
-  OutlinedInput,
+  SelectChangeEvent
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -92,8 +89,7 @@ const Product = () => {
   }, [selectedCollection]);
 
   const handleCollectionChange = (
-    event: SelectChangeEvent<string>,
-    child: React.ReactNode
+    event: SelectChangeEvent<string>
   ) => {
     const selectedValue = event.target.value;
     console.log(selectedValue);
@@ -236,7 +232,6 @@ const Product = () => {
               sx={{
                 // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
                 marginTop: 3,
-                position: "relative",
                 lineHeight: "none",
               }}
             >
@@ -255,7 +250,7 @@ const Product = () => {
                     <TableCell align="center">Images</TableCell>
                     <TableCell align="center">Price</TableCell>
                     <TableCell align="center">InStock</TableCell>
-                    <TableCell align="center" sx={{ width: 450 }}>
+                    <TableCell align="center" sx={{ width: "300px" }}>
                       Description
                     </TableCell>
                     <TableCell align="center">Actions</TableCell>
@@ -279,7 +274,7 @@ const Product = () => {
                         <TableCell align="center" sx={{ width: "20px" }}>
                           {product.inStock || null}
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell align="center" sx={{textAlign:"left",maxWidth: "300px", wordWrap: "break-word"}}>
                           {product.description || null}
                         </TableCell>
 

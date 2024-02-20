@@ -5,12 +5,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
+// import AddIcon from "@mui/icons-material/Add";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import imageCompression from "browser-image-compression";
+// import imageCompression from "browser-image-compression";
 import { CategoryDrawerProps, ICategory } from "../interface/type";
 import {
   useCreateCategoryMutation,
@@ -22,9 +22,8 @@ import toast from "react-hot-toast";
 const schema = yup.object().shape({
   name: yup
     .string()
-    .min(5, "Name should be min 5 characters")
     .required("Please enter the name"),
-  description: yup.string(),
+  description: yup.string().max(200),
   // image: yup.mixed().required("Menu image is required"),
 });
 
@@ -184,7 +183,7 @@ function CategoryDrawer(props: CategoryDrawerProps) {
           p={2}
         >
           <Typography variant="h6" component="div">
-            {selectedCategory?._id ? "Edit Category" : "Add Category"}
+            {selectedCategory?._id ? "Edit Collection" : "Add Collection"}
           </Typography>
           <CloseIcon
             sx={{ cursor: "pointer" }}
