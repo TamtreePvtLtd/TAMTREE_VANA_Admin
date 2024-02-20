@@ -81,8 +81,6 @@ function ProductDialog(props: IProps) {
     selectedProduct,
   } = props;
 
-
-
   const formRef = useRef(null);
   const [collections, setCollections] = useState<ICategory[]>([]);
   const [product, setProduct] = useState<IProduct>(ProductInitialValue);
@@ -321,7 +319,7 @@ function ProductDialog(props: IProps) {
     formData.append("price", String(product.price));
     formData.append("inStock", product.inStock);
 
-    if (product.JewelleryCollection) {
+    if (Array.isArray(product.JewelleryCollection)) {
       product.JewelleryCollection.forEach((itemId) => {
         formData.append("JewelleryCollection[]", itemId as string);
       });
