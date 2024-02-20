@@ -41,6 +41,7 @@ import { useSnackBar } from "../context/SnackBarContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getAllCategory } from "../services/CategoryApi";
 import ProductImage from "../common/ProductImage";
+import { getAllProduct } from "../services/Product";
 
 interface IProps {
   selectedProduct: IProduct;
@@ -60,7 +61,11 @@ const Transition = React.forwardRef(function Transition(
   );
 });
 const schema = yup.object().shape({
-  title: yup.string().required("Title is required"),
+  title: yup.string().required("Title is required").test('unique-title', 'Title already exists', async function(value) {
+    const products = await getAllProduct();
+    const existingTitles = products.map(product => product.title);
+    return !existingTitles.includes(value);
+  }),
   price: yup.number().required("Price is required"),
   description: yup.string().required("Description is required"),
   netWeight: yup.number().required("Net Weight is required"),
