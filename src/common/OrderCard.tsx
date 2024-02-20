@@ -1,56 +1,59 @@
-import React from "react";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import dayjs from "dayjs";
 import { IOrder } from "../interface/type";
+import { IconButton, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow, Table } from "@mui/material";
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import { useNavigate } from "react-router";
+import { paths } from "../routes/path";
 
-interface IProps extends IOrder {}
 
-const OrderCard = (props: IProps) => {
-  const { orderNumber, orderDateAndTime } = props;
+export interface IProps{
+  orders: IOrder[];
+}
+
+const OrderCard = ({ orders }: IProps) => {
+
+  const navigate = useNavigate();
+  
+  const handleOrderRedirect = (orderId: string) => {
+    navigate(`${paths.ORDERSDETAILS}/${orderId}`);
+  }
 
   return (
-    <Card
-      sx={{
-        boxShadow: 4,
-        cursor: "pointer",
-        transition: "transform 0.3s",
-        "&:hover": {
-          transform: "scale(1.1)",
-        },
-      }}
-    >
-      <CardContent>
-        <Box>
-          <Typography
-            sx={{ fontSize: 12 }}
-            noWrap
-            color="text.primary"
-            gutterBottom
-          >
-            <b>Order No:&nbsp;</b> {orderNumber}
-          </Typography>
-        </Box>
-
-        <Divider />
-        <Box>
-          {orderDateAndTime && (
-            <Typography
-              sx={{ fontSize: 12, marginTop: 2 }}
-              color="text.primary"
-              gutterBottom
-              component="div"
-            >
-              <b>Ordered At:&nbsp;</b>
-              {dayjs(new Date(orderDateAndTime)).format("DD-MM-YYYY") ?? ""}
-            </Typography>
-          )}
-        </Box>
-      </CardContent>
-    </Card>
+     <Box>
+      <TableContainer
+                  elevation={0}
+                  sx={{
+                    boxShadow: 3,
+                    width: "100%",
+                    maxWidth: "none",
+                  }}
+                  component={Paper}
+      >
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>S.No</TableCell>
+            <TableCell>Order Number</TableCell>
+            <TableCell>Order DateAndTime</TableCell>
+            <TableCell>Action</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {orders.map((order) => (
+            <TableRow key={order._id} >
+              <TableCell>{order.Sno}</TableCell>
+              <TableCell>{order.OrderNumber}</TableCell>
+              <TableCell>{order.OrderDateAndTime && dayjs(new Date(order.OrderDateAndTime)).format("DD-MM-YYYY")}</TableCell>
+              <TableCell>
+              <IconButton onClick={() => order._id && handleOrderRedirect(order._id)}>
+ <RemoveRedEyeOutlinedIcon /> </IconButton></TableCell>
+            </TableRow>
+          ))}
+          </TableBody>
+          </Table>
+      </TableContainer>
+   </Box>
   );
 };
 

@@ -1,4 +1,3 @@
-
 export interface ICategory {
   _id?: string;
   name: string;
@@ -75,8 +74,9 @@ export interface Id {
 }
 
 export interface IOrder extends Id {
-  orderDateAndTime: Date;
-  orderNumber: string;
+  Sno: number;
+  OrderDateAndTime: Date;
+  OrderNumber: string;
 }
 
 export interface IOrderDetailByOrderID {
