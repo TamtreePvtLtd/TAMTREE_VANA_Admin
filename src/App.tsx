@@ -29,7 +29,7 @@ function App() {
               <Route path={paths.ROOT} element={<Layout />}>
               <Route
                   index
-                  path={paths.ROOT}
+                  path={paths.ORDER}
                   element={
                     <PrivateRoute>
                       <Order />
