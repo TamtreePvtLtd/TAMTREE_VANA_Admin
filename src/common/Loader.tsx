@@ -6,7 +6,7 @@ import useAxiosLoader, {
 } from "../services/http";
 import { Box } from "@mui/material";
 
-const Spinner = () => <div className="spinner"></div>;
+// const Spinner = () => <div className="spinner"></div>;
 
 function Loader() {
   const [axiosWithCredentialLoading] = useAxiosLoader(

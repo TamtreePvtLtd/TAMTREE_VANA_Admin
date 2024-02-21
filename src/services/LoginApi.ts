@@ -17,7 +17,7 @@ export const handleLogout = async () => {
       console.log(response); 
       return response.data;
     } catch (error) {
-      console.error('Error logging out:', error);
+     throw error
     }
   };
 
