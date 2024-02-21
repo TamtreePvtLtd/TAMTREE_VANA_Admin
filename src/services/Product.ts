@@ -1,5 +1,5 @@
 import { IProduct } from "../interface/type";
-import { httpWithoutCredentials as http } from "./http";
+import { httpWithCredentials as http } from "./http";
 
 export const getAllProduct = async () => {
   try {
