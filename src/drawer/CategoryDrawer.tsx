@@ -33,6 +33,7 @@ function CategoryDrawer(props: CategoryDrawerProps) {
     isDrawerOpen: categoryDrawerOpen,
     handleDrawerClose,
     selectedCategory,
+    refetch,
   } = props;
   const formRef = useRef(null);
 
@@ -137,8 +138,7 @@ function CategoryDrawer(props: CategoryDrawerProps) {
     formData.append("name", data.name);
     formData.append("description", data.description);
     if (!selectedCategory?._id) {
-      handleDrawerClose();
-      categoryCreateMutation.mutate(formData, {
+      categoryCreateMutation.mutateAsync(formData, {
         onSuccess: () => {
           toast.success("Collection  created successfully");
           resetForm();
@@ -147,13 +147,12 @@ function CategoryDrawer(props: CategoryDrawerProps) {
           toast.error(error.response.data.message);
         },
       });
+      refetch();
     } else {
       formData.append("id", selectedCategory?._id);
-      categoryUpdateMutation.mutate(formData, {
+      categoryUpdateMutation.mutateAsync(formData, {
         onSuccess: () => {
-          handleDrawerClose();
           toast.success("Collection  updated successfully");
-
           resetForm();
         },
         onError: (error: any) => {
@@ -161,6 +160,9 @@ function CategoryDrawer(props: CategoryDrawerProps) {
         },
       });
     }
+
+    handleDrawerClose();
+    refetch();
   };
 
   const resetForm = () => {

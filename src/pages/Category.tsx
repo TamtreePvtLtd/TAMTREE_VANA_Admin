@@ -60,7 +60,6 @@ const Category = () => {
   const handleCategoryAddClick = () => {
     setSelectedCategory(newCategory);
     setIsDrawerOpen(true);
-    refetch();
   };
 
   const handleCategoryDeleteClick = (category: ICategory) => {
@@ -211,7 +210,7 @@ const Category = () => {
               isDrawerOpen={isDrawerOpen}
               handleDrawerClose={() => setIsDrawerOpen(false)}
               selectedCategory={selectedCategory}
-              isFetching={isFetching}
+              refetch={refetch}
             />
           )}
         </>

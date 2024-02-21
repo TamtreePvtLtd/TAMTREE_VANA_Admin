@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  FetchJewelleryItemByJewelleryCollection,
   createProduct,
   deleteProduct,
   getAllProduct,
@@ -15,10 +16,10 @@ export const useGetAllProducts = () => {
     refetchOnWindowFocus: false,
   });
 };
-export const useFetchJewelleryItemByJewelleryCollection = () => {
+export const useFetchJewelleryItemByJewelleryCollection = (collectionId: string) => {
   return useQuery({
-    queryKey: ["products"],
-    queryFn: getAllProduct,
+    queryKey: ["products", collectionId],
+    queryFn: () => FetchJewelleryItemByJewelleryCollection(collectionId),
     refetchOnWindowFocus: false,
   });
 };

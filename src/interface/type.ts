@@ -7,8 +7,8 @@ export interface ICategory {
 
 export interface ILogin {
   email: string;
- password: string;
- }
+  password: string;
+}
 export interface IUser {
   adminId: string | null;
   email: string | null;
@@ -29,7 +29,7 @@ export type CategoryDrawerProps = {
   isDrawerOpen: boolean;
   selectedCategory: ICategory | null;
   handleDrawerClose: () => void;
-  isFetching: boolean;
+  refetch: () => Promise<any>;
 };
 export type JewelleryItemDrawerProps = {
   isDrawerOpen: boolean;
@@ -47,6 +47,7 @@ export interface IProduct {
   netWeight?: number;
   posterURL: string;
   JewelleryCollection: (string | undefined)[];
+  categoryName?: string
 }
 
 export type DialogProps = {
