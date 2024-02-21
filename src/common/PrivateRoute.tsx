@@ -22,7 +22,6 @@ const PrivateRoute = ({ children }:PrivateRouteProps) => {
         navigate(paths.LOGIN); // Redirect to login page if not authorized
       } else {
         updateUserData({ ...user });
-        // navigate(paths.ROOT);
       }
     } catch (error) {
       console.error("Error checking authorization:", error);

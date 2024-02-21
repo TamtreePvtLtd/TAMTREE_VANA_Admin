@@ -134,8 +134,8 @@ const Category = () => {
                   elevation={0}
                   sx={{
                     boxShadow: 3,
-                    width: "55%",
-                    maxWidth: "800px",
+                    width: "100%",
+                    maxWidth: "1200px",
                   }}
                   component={Paper}
                 >
@@ -174,7 +174,7 @@ const Category = () => {
                         />
                       </TableCell> */}
                           <TableCell align="center">{category.name}</TableCell>
-                          <TableCell align="center">
+                          <TableCell align="left">
                             {category.description}
                           </TableCell>
                           <TableCell align="center">

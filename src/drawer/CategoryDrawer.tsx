@@ -22,9 +22,8 @@ import toast from "react-hot-toast";
 const schema = yup.object().shape({
   name: yup
     .string()
-    .min(5, "Name should be min 5 characters")
     .required("Please enter the name"),
-  description: yup.string(),
+  description: yup.string().required("Please enter the description")
   // image: yup.mixed().required("Menu image is required"),
 });
 

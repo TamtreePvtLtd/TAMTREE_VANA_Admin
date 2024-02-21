@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter , Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import Layout from "./layout/Layout";
 import Product from "./pages/Product";
@@ -23,13 +23,13 @@ function App() {
 
       <ThemeProvider theme={theme}>
         <Toaster/>
-        <BrowserRouter>
+        <BrowserRouter> 
           <Routes>
           <Route path={paths.LOGIN} element={<Login />} />
               <Route path={paths.ROOT} element={<Layout />}>
               <Route
                   index
-                  path={paths.ORDER}
+                  path={paths.ROOT}
                   element={
                     <PrivateRoute>
                       <Order />
@@ -62,7 +62,7 @@ function App() {
                 />
             </Route>
           </Routes>
-          </BrowserRouter>
+    </BrowserRouter>
       </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>
