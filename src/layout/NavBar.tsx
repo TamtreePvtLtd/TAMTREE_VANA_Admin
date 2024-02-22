@@ -16,7 +16,6 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -40,7 +39,10 @@ const NavBar = () => {
   const { user,updateUserData} = useAuthContext();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
+
   const open = Boolean(anchorEl);
+
+
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget as HTMLButtonElement);
@@ -65,15 +67,22 @@ const NavBar = () => {
     setDrawerOpen(false);
   };
 
-  const moveToLogin = () => {
-    navigate(paths.LOGIN);
-  };
 
   const handleLogoutClick = async () => {
-    await handleLogout(); 
-    handleMenuClose();
-    updateUserData(null)
-    navigate(paths.LOGIN); 
+    await handleLogout()
+      .then((response) => {
+        if (response.status) {
+          updateUserData(null);
+
+          handleMenuClose();
+          navigate(paths.LOGIN);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          console.log(error.response.data);
+        }
+      });
   };
 
 
@@ -101,7 +110,7 @@ const NavBar = () => {
             VANA
           </Typography>
           
-          {user ? (
+          {user && (
             <Tooltip title="Account settings">
               <IconButton
                 onClick={handleMenuOpen}
@@ -111,14 +120,11 @@ const NavBar = () => {
                 aria-expanded={open ? "true" : "false"}
               >
                 <Avatar sx={{ width: 28, height: 28 }}>
-                  {user!.email ? user!.email.toUpperCase()[0] : ""}
+                  {user!.name ? user!.name.toUpperCase()[0] : ""}
                 </Avatar>
               </IconButton>
             </Tooltip>
-          ) : (
-            <IconButton color="inherit" onClick={moveToLogin}>
-              <AccountCircleIcon />
-            </IconButton>
+             
           )}
          
         </Toolbar>
@@ -175,44 +181,44 @@ const NavBar = () => {
         </List>
       </Drawer>
       <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleMenuClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            "& .MuiAvatar-root": {
-              width: 25,
-              height: 25,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem onClick={handleLogoutClick}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
+             anchorEl={anchorEl}
+             id="account-menu"
+             open={open}
+             onClose={handleMenuClose}
+             PaperProps={{
+               elevation: 0,
+               sx: {
+                 overflow: "visible",
+                 filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                 "& .MuiAvatar-root": {
+                   width: 25,
+                   height: 25,
+                   mr: 1,
+                 },
+                 "&:before": {
+                   content: '""',
+                   display: "block",
+                   position: "absolute",
+                   top: 0,
+                   right: 14,
+                   width: 10,
+                   height: 10,
+                   bgcolor: "background.paper",
+                   transform: "translateY(-50%) rotate(45deg)",
+                   zIndex: 0,
+                 },
+               },
+             }}
+             transformOrigin={{ horizontal: "right", vertical: "top" }}
+             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+           >
+             <MenuItem onClick={handleLogoutClick}>
+               <ListItemIcon>
+                 <Logout fontSize="small" />
+               </ListItemIcon>
+               Logout
+             </MenuItem>
+           </Menu>
     </>
   );
 };

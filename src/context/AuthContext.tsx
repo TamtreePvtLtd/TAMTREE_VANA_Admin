@@ -8,6 +8,7 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<IAuthContext>({
   user: {
+    name:null,
     adminId: null,
     email:null,
   },

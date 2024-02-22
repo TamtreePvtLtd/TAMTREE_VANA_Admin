@@ -5,13 +5,14 @@ export interface ICategory {
   // image: string;
 }
 
-export interface ILogin {
+export interface ILoginFormInputs {
   email: string;
  password: string;
  }
 export interface IUser {
   adminId: string | null;
   email: string | null;
+  name:string | null
 }
 
 export interface ILoginResponse {

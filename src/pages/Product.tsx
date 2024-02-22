@@ -255,7 +255,7 @@ const Product = () => {
                     <TableCell align="center">Images</TableCell>
                     <TableCell align="center">Price</TableCell>
                     <TableCell align="center">InStock</TableCell>
-                    <TableCell align="center" sx={{ width: 450 }}>
+                    <TableCell align="center" sx={{ width: "300px"}}>
                       Description
                     </TableCell>
                     <TableCell align="center">Actions</TableCell>
@@ -281,13 +281,7 @@ const Product = () => {
                         </TableCell>
                         <TableCell
                           align="center"
-                          sx={{
-                            textAlign: "center",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            maxWidth: "50px",
-                          }}
+                          sx={{textAlign:"left",maxWidth: "300px", wordWrap: "break-word"}}
                         >
                           {product.description || null}
                         </TableCell>

@@ -11,6 +11,7 @@ const Layout = () => {
         sx={{
           pb: 3,
           pt: 3,
+          marginTop:"70px"
         }}
       >
         <Outlet />

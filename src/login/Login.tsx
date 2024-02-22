@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {  useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -7,14 +7,18 @@ import {
   Button,
   Box,
   Typography,
-  IconButton,
   InputAdornment,
+  AppBar,
+  IconButton,
+  Toolbar,
+  Avatar,
 } from "@mui/material";
+import vanaLogo from "../assets/vanalogo.png";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { ILogin} from "../interface/type";
-import { useNavigate } from "react-router";
-import { getLoginCridential } from "../services/LoginApi";
+import { ILoginFormInputs} from "../interface/type";
+import { useNavigate,Link } from "react-router-dom";
+import { getLoginCridential,isAuthorized} from "../services/LoginApi";
 import { useAuthContext } from "../context/AuthContext";
 import { paths } from "../routes/path";
 import toast from "react-hot-toast";
@@ -32,29 +36,56 @@ const schema = yup.object().shape({
 const Login = () => {
   const navigate = useNavigate();
   const { updateUserData } = useAuthContext();
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean | null>(null);
+  const togglePasswordVisibility = () => setShowPassword((show) => !show);
+  
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<ILogin>({
-    resolver: yupResolver(schema),
+  } = useForm<ILoginFormInputs>({
+    resolver: yupResolver(schema),  
     mode:"all"
   });
 
-  const [showPassword, setShowPassword] = useState(false);
+  useEffect(() => {
+    checkAuthorization();
+  }, []);
+
+  const checkAuthorization = async () => {
+    setIsLoading(true);
+    let user;
+
+    try {
+      user = await isAuthorized();
+      if (!user) {
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        updateUserData({ ...user });
+        navigate(paths.ROOT)
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error checking authorization:", error);
+      navigate(paths.LOGIN);
+      
+    }
+  };
   
-  const handleLogin = async (data: ILogin) => {
+  const handleLogin = async (data: ILoginFormInputs) => {
      await getLoginCridential(data)
      .then((response)=>{
       if (response.data) {
         updateUserData({
-          ...response.data.data!
+          ...response.data
         });
-        toast.success(response.data.message)
-        navigate(paths.PRODUCT);
+        toast.success(response.message)
+        navigate(paths.ORDER);
       } else {
         updateUserData(null);
+        navigate(paths.ROOT)
       }
      })  
      .catch((error) => {
@@ -67,19 +98,46 @@ const Login = () => {
     });
 };
 
-    
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
+  
 
   return (
+<>
+{isLoading != null && !isLoading && (
+    <>
+    <AppBar
+        position="fixed"
+        sx={{ height: "70px", display: "flex", justifyContent: "center" }}
+      >
+        <Toolbar>
+        <Link
+                  to={paths.ROOT}
+                  style={{ textDecoration: "none", display: "flex" }}
+                >
+          <Avatar
+            alt="Company Logo"
+            src={vanaLogo}
+            sx={{
+              marginRight: 2,
+              backgroundColor: "#F6F6F6",
+              height: "45px",
+              width: "45px",
+            }}
+          />
+          </Link>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            VANA
+          </Typography>
+          
+         
+        </Toolbar>
+      </AppBar>
     <Box
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         height: "70vh",
+        marginTop: "50px",
       }}
     >
       <Box>
@@ -143,6 +201,10 @@ const Login = () => {
         </form>
       </Box>
     </Box>
+    </>
+)}
+    </>
+
   );
 };
 
