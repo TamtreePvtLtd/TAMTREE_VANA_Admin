@@ -22,7 +22,10 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IProduct } from "../interface/type";
-import { useDeleteProductMutation } from "../customHooksRQ/Product";
+import {
+  useDeleteProductMutation,
+  useFetchJewelleryItemByJewelleryCollection,
+} from "../customHooksRQ/Product";
 import { FetchJewelleryItemByJewelleryCollection } from "../services/Product";
 import DeleteConfirmationDialogBox from "../common/DeleteConfirmationDialogBox";
 import Loader from "../common/Loader";
@@ -73,11 +76,10 @@ const Product = () => {
       try {
         setLoadingProducts(true);
         if (selectedCollection) {
-          const result = await FetchJewelleryItemByJewelleryCollection(
+          const { data } = await useFetchJewelleryItemByJewelleryCollection(
             selectedCollection
           );
-
-          setFilteredProducts(result);
+          if (data) setFilteredProducts(data);
         }
       } catch (error) {
         console.error("Error fetching products:", error);

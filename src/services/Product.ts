@@ -70,11 +70,11 @@ export const deleteProduct = async (id: string) => {
 };
 
 export const FetchJewelleryItemByJewelleryCollection = async (
-  updatedProduct: string
+  collectionId: string
 ) => {
   try {
     const response = await http.get<IProduct[]>(
-      `JewelleryItem/fetchJewelleryItemByJewelleryCollectionId/${updatedProduct}`
+      `JewelleryItem/fetchJewelleryItemByJewelleryCollectionId/${collectionId}`
     );
 
     return response.data;
