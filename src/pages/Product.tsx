@@ -171,7 +171,7 @@ const Product = () => {
                 <Button
                   variant="contained"
                   onClick={handleAddProductClick}
-                  sx={{ textTransform: "none" }}
+                  sx={{ textTransform: "none",color:"white" }}
                 >
                   + Add Product
                 </Button>

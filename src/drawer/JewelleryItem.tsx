@@ -398,7 +398,13 @@ function ProductDialog(props: IProps) {
       fullScreen
       open={ProductdialogOpen}
       onClose={handleCloseDialog}
-      sx={{ height: "100%" }}
+      sx={{
+        width: "60%",
+        height: "100%",
+        position: "fixed",
+        left: "auto",
+        right: 0,
+      }}
       TransitionComponent={Transition}
     >
       <form ref={formRef} onSubmit={handleSaveProduct}>
@@ -409,7 +415,10 @@ function ProductDialog(props: IProps) {
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="h4" sx={{ paddingLeft: "10px" }}>
+          <Typography
+            variant="h5"
+            sx={{ paddingLeft: "10px", fontWeight: 600, color: "#bd8d67" }}
+          >
             {isEdit ? "Edit Product" : "Add Product"}
           </Typography>
           <Button
@@ -425,15 +434,20 @@ function ProductDialog(props: IProps) {
 
         <Divider />
         <DialogContent>
-          <Grid container columnSpacing={5}>
-            <Grid item xs={6}>
-              <Typography variant="h6" sx={{ marginTop: 1 }}>
+          <Grid container>
+            <Grid item xs={6} sx={{ paddingLeft: "10px" }}>
+              <Typography
+                variant="body1"
+                fontWeight="bold"
+                sx={{ marginTop: 1 }}
+              >
                 Title
               </Typography>
 
               <TextField
                 size="small"
-                fullWidth
+                sx={{ width: "80%",mb:2 }}
+                // fullWidth
                 value={product.title}
                 onChange={(e) =>
                   setProduct((prevState) => ({
@@ -443,12 +457,17 @@ function ProductDialog(props: IProps) {
                 }
               />
 
-              <Typography variant="h6" sx={{ marginTop: 1 }}>
+              <Typography
+                variant="body1"
+                fontWeight="bold"
+                sx={{ marginTop: 1 }}
+              >
                 Description
               </Typography>
 
               <TextField
-                fullWidth
+                // fullWidth
+                sx={{ width: "80%" ,mb:2}}
                 multiline
                 minRows={4}
                 maxRows={6}
@@ -460,7 +479,11 @@ function ProductDialog(props: IProps) {
                   }))
                 }
               />
-              <Typography variant="h6" sx={{ marginTop: 1 }}>
+              <Typography
+                variant="body1"
+                fontWeight="bold"
+                sx={{ marginTop: 1 }}
+              >
                 Collections
               </Typography>
               <FormGroup>
@@ -487,13 +510,18 @@ function ProductDialog(props: IProps) {
               </FormGroup>
             </Grid>
             <Grid item xs={6} sx={{ paddingRight: "50px" }}>
-              <Typography variant="h6" sx={{ marginTop: 1 }}>
+              <Typography
+                variant="body1"
+                fontWeight="bold"
+                sx={{ marginTop: 1 }}
+              >
                 Price
               </Typography>
 
               <TextField
                 size="small"
-                fullWidth
+                sx={{ width: "80%",mb:2 }}
+                // fullWidth
                 value={product.price}
                 onChange={(e) =>
                   setProduct((prevState) => ({
@@ -503,13 +531,18 @@ function ProductDialog(props: IProps) {
                 }
               />
 
-              <Typography variant="h6" sx={{ marginTop: 1 }}>
+              <Typography
+                variant="body1"
+                fontWeight="bold"
+                sx={{ marginTop: 1 }}
+              >
                 InStock
               </Typography>
 
               <TextField
                 size="small"
-                fullWidth
+                sx={{ width: "80%",mb:2 }}
+                // fullWidth
                 value={product.inStock}
                 onChange={(e) =>
                   setProduct((prevState) => ({
