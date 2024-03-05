@@ -20,6 +20,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CategoryIcon from "@mui/icons-material/Category";
 import StoreIcon from "@mui/icons-material/Store";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { useNavigate } from "react-router";
 import { paths } from "../routes/path";
 import vanaLogo from "../assets/vanalogo.png";
@@ -30,6 +31,7 @@ const menuItems = [
   { text: "Orders", icon: <AddShoppingCartIcon />, path: `${paths.ORDER}` },
   { text: "Products", icon: <StoreIcon />, path: `${paths.PRODUCT}` },
   { text: "Collections", icon: <CategoryIcon />, path: `${paths.CATEGORY}` },
+  { text: "Shipping", icon: <LocalShippingIcon />, path: `${paths.SHIPPING}` },
 ];
 
 

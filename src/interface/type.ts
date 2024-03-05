@@ -7,12 +7,12 @@ export interface ICategory {
 
 export interface ILoginFormInputs {
   email: string;
- password: string;
- }
+  password: string;
+}
 export interface IUser {
   adminId: string | null;
   email: string | null;
-  name:string | null
+  name: string | null;
 }
 
 export interface ILoginResponse {
@@ -115,4 +115,9 @@ export interface IProductdetail {
   _id: string;
 }
 
-
+export interface IShipping {
+  
+  _id: string;
+  price: number;
+  title: string;
+}

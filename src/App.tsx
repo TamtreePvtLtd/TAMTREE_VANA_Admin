@@ -13,6 +13,7 @@ import OrdersDetails from "./pages/OrderDetails";
 import Login from "./login/Login";
 import AuthProvider from "./context/AuthContext";
 import PrivateRoute from "./common/PrivateRoute";
+import Shipping from "./pages/Shipping";
 
 export const queryClient = new QueryClient();
 
@@ -20,14 +21,13 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-
-      <ThemeProvider theme={theme}>
-        <Toaster/>
-        <BrowserRouter> 
-          <Routes>
-          <Route path={paths.LOGIN} element={<Login />} />
+        <ThemeProvider theme={theme}>
+          <Toaster />
+          <BrowserRouter>
+            <Routes>
+              <Route path={paths.LOGIN} element={<Login />} />
               <Route path={paths.ROOT} element={<Layout />}>
-              <Route
+                <Route
                   index
                   path={paths.ORDER}
                   element={
@@ -36,11 +36,19 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                   <Route
+                <Route
                   path={paths.PRODUCT}
                   element={
                     <PrivateRoute>
                       <Product />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path={paths.SHIPPING}
+                  element={
+                    <PrivateRoute>
+                      <Shipping />
                     </PrivateRoute>
                   }
                 />
@@ -60,10 +68,10 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-            </Route>
-          </Routes>
-    </BrowserRouter>
-      </ThemeProvider>
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
